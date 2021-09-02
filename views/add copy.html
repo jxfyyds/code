@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #upoload {
+            width: 100px;
+            height: 20px;
+            border: 0;
+            outline: 0;
+            border-radius: 10px;
+            background-color: rgb(63, 131, 66);
+            cursor: pointer;
+            font-size: 12px;
+            color: rgb(224, 232, 235);
+        }
+        #cat_id{
+            border: 0;
+            outline: 0;
+          
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>添加文章</h1>
+    <form action="/insert" method="post" enctype="multipart/form-data">
+        <p>
+            标题： <input type="text" name="title" autocomplete="off">
+        </p>
+        <p>
+            作者： <input type="text" name="author" autocomplete="off">
+
+        </p>
+        <p>
+            封面：
+
+            <input type="file" name="img" id='img' autocomplete="off" style="display: none;">
+            <button id="upoload">选择图片</button>
+        </p>
+
+        <p id="imgWrap" style="display:none; " >
+            预览：
+            <img src="" id="preciew" style="width: 100px">
+        </p>
+        <p>
+            审核：
+            <input type="radio" name="status" value='0'> 待审核
+            <input type="radio" name="status" value='1' checked> 审核通过
+            <input type="radio" name="status" value='2'> 审核失败
+        </p>
+        <p>
+            所属分类：
+            <select name="cat_id">
+                <option value="0">请选择</option>
+                {{each cats item index}}
+                <option value={{item.id}}>{{item.name}}</option>
+                {{/each}}
+            </select>
+        </p>
+
+        <p>
+            内容：
+            <textarea name="content" cols="30" rows="10"></textarea>
+        </p>
+        <p>
+            <button>添加</button>
+        </p>
+    </form>
+</body>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+<script>
+    let upoload = document.getElementById('upoload')
+    let imgEle = document.getElementById('img')
+    upoload.onclick = function (event) {
+        imgEle.click();
+        return false;
+    }
+    imgEle.onchange = function () {
+        let file = this.files[0]
+       
+        // 判断是否有上传文件，没有则退出
+        if (!file) {
+            return
+        }
+        let fileReader = new FileReader()
+        //读取二进制数据变成base64
+        fileReader.readAsDataURL(file)
+        fileReader.onload = function (e) {
+            // console.log(this.result)// base64
+            document.getElementById('preciew').src = this.result;
+            document.getElementById('imgWrap').style.display = '';
+        }
+    }
+</script>
+
+
+</html>

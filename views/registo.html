@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册页面</title>
+    <style>
+        body {
+
+            background: url(" https://imgtu.com/content/images/system/home_cover_1587121321656_fce672.jpg") no-repeat;
+            background-attachment: fixed;
+            background-color: #CCCCCC;
+            background-size: cover;
+            
+        }
+    </style>
+</head>
+
+<body>
+    <h1 style="text-align: center;">注册页面</h1>
+    <div style="text-align: center;">
+        <p>
+            用户名：
+            <input type="text" id="username" placeholder='请输入你的用户名'>
+        </p>
+        <p>
+            邮箱：
+            <input type="text" id="email" placeholder='请输入你的邮箱'>
+        </p>
+        <p>
+            密码：
+            <input type="password" id="password" placeholder='请输入你的密码'>
+        </p>
+        <p>
+            再次输入密码：
+            <input type="password" id="repassword" placeholder='请再次输入你的密码'>
+        </p>
+        <p>
+            <button id="registoBtn">注册</button>
+        </p>
+    </div>
+
+
+
+</body>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/layer/3.5.1/layer.js"></script>
+<script>
+    let isValidEmail = false;
+
+    //邮箱验真是否注册
+    $('#email').on('blur', function () {
+        let email = $(this).val();
+        if (!/^\w+@(?:\w+\.)+[a-zA-Z]{2,6}$/.test(email)) {
+            layer.msg("邮箱格式非法")
+            return;
+        }
+        email = encode(email)
+        let xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                let data = JSON.parse(this.responseText)
+                let { errcode, message } = data;
+                layer.msg(message)
+                if (errcode === 200) {
+                    isValidEmail = true;
+                    layer.msg(message)
+                } else {
+                    isValidEmail = false;
+                    layer.msg(message)
+                }
+
+            }
+        }
+        xhr.open('post', 'ajaxemail', true)
+        xhr.setRequestHeader("Content-type", 'application/x-www-form-urlencoded')
+        let formData = `email=${email}`
+        xhr.send(formData)
+    })
+
+    //注册事件
+    $('#registoBtn').on('click', function () {
+        //获取表单的值
+        let username = $('#username').val()
+        let email = $('#email').val()
+        let password = $('#password').val()
+        let repassword = $('#repassword').val()
+
+        //校验
+        if ([username, email, password, repassword].includes('')) {
+            layer.msg("参数不能为空")
+            return;
+        }
+        if (!/^\w+@(?:\w+\.)+[a-zA-Z]{2,6}$/.test(email)) {
+            layer.msg("邮箱格式非法")
+            return;
+        }
+
+        if (password !== repassword) {
+            layer.msg("浏览器-两次密码不一致")
+            return;
+        }
+
+
+        username = encode(username)
+        email = encode(email)
+        password = encode(password)
+        repassword = encode(repassword)
+        if (!isValidEmail) {
+            layer.msg('邮箱不可用')
+            return;
+        }
+
+        $(this).prop('disabled', true).html('注册中...')
+        //发送ajax请求
+        let xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                $(this).prop('disabled', false).html('注册')
+                let data = JSON.parse(this.responseText)
+                let { errcode, message } = data;
+                layer.msg(message)
+                if (errcode === 200) {
+                    location.href = '/login'
+                }
+
+            }
+        }
+        xhr.open('post', 'ajaxregisto', true)
+        xhr.setRequestHeader("Content-type", 'application/x-www-form-urlencoded')
+        let formData = `username=${username}&email=${email}&password=${password}&repassword=${repassword}`
+        xhr.send(formData)
+    })
+    function encode(value) {
+        return encodeURIComponent(value)
+    }
+</script>
+
+</html>

@@ -1,0 +1,166 @@
+<div class="layui-header">
+  <div class="layui-logo layui-hide-xs layui-bg-black">高清无码管理系统 - Layui</div>
+  <!-- 头部区域（可配合layui 已有的水平导航） -->
+  <ul class="layui-nav layui-layout-left">
+    <!-- 移动端显示 -->
+    <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-header-event="menuLeft">
+      <i class="layui-icon layui-icon-spread-left"></i>
+    </li>
+
+    <!-- <li class="layui-nav-item layui-hide-xs"><a href="">nav 1</a></li>
+      <li class="layui-nav-item layui-hide-xs"><a href="">nav 2</a></li>
+      <li class="layui-nav-item layui-hide-xs"><a href="">nav 3</a></li>
+      <li class="layui-nav-item">
+        <a href="javascript:;">shouye</a>
+        <dl class="layui-nav-child">
+          <dd><a href="">menu 11</a></dd>
+          <dd><a href="">menu 22</a></dd>
+          <dd><a href="">menu 33</a></dd>
+        </dl>
+      </li> -->
+  </ul>
+  <ul class="layui-nav layui-layout-right ">
+    <li class="layui-nav-item layui-hide layui-show-md-inline-block">
+      欢迎你：{{userInfo.username}},上一次登入时间：{{userInfo.last_login_date | dealDate
+      'YYYY-MM-DD'}}
+    </li>
+    <li class="layui-nav-item layui-hide layui-show-md-inline-block">
+
+      <a href="javascript:;">
+        <img src="{{userInfo.avatar}}" id="preview" class="layui-nav-img">
+        <input type="file" id="avatarFile" style="display: none;">
+
+      </a>
+
+      <dl class="layui-nav-child">
+
+        <dd><a href="javascript:;" id="updAvatar">更换头像</a></dd>
+        <dd><a href="javascript:;" id="rewpswd">修改密码</a></dd>
+        <dd><a href="javascript:void(0)" onclick="logout()">退出</a></dd>
+      </dl>
+    </li>
+    <li class="layui-nav-item" lay-header-event="menuRight" lay-unselect>
+      <a href="javascript:;">
+        <i class="layui-icon layui-icon-more-vertical"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+<script src="/layui-v2.6.8/layui/layui.js"></script>
+<script>
+  window.onload = function () {
+
+    let htmlStr = `
+<div id="updPasswordContainer">
+        <div class="layui-form-item">
+          <label class="layui-form-label">原密码</label>
+          <div class="layui-input-inline">
+            <input type="password" id="oldpassword"   placeholder="请输入原密码" class="layui-input" autocomplete="off" >
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">新密码</label>
+          <div class="layui-input-inline">
+            <input type="password" id="password"  placeholder="请输入新密码" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">确认新密码</label>
+          <div class="layui-input-inline">
+            <input type="password" id="repassword"  placeholder="请再次输入密码" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+`;
+    //页面层
+    $('#rewpswd').click(function () {
+      layer.open({
+        title: "修改密码",
+      shadeClose:true,
+        skin: 'layui-layer-rim', //加上边框
+        area: ['420px', '240px'], //宽高
+        content: htmlStr,
+        btn: "确认修改",
+        yes: function (index, layero) {
+          let oldpwd = $('#oldpassword').val()
+          let newpwd = $('#password').val()
+          let renewpwd = $('#repassword').val()
+          if ([oldpwd, newpwd, renewpwd].includes('')) {
+            alert('不能为空')
+          }
+          if (newpwd !== renewpwd) {
+            alert('两次密码不一致')
+          }
+          let xhr = new XMLHttpRequest();
+          xhr.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+              let { errcode, message } = JSON.parse(this.responseText)
+              if (errcode === 200) {
+                layer.msg(message)
+                location.href='/logout'
+              } else {
+                alert(message)
+              }
+            }
+          }
+          xhr.open('post', '/updatePassword', true)
+          xhr.setRequestHeader("Content-type", 'application/x-www-form-urlencoded')
+          let formData =`oldpwd=${oldpwd}&newpwd=${newpwd}&renewpwd=${renewpwd}`
+          xhr.send(formData)
+        }
+      });
+
+    })
+
+
+
+
+
+  }
+
+
+  // 退出
+  function logout() {
+    if (confirm('确认退出吗')) {
+      location.href = "/logout"
+    }
+  }
+
+
+  // ajax 更新用户头像
+  let avatarFile = document.getElementById("avatarFile")
+
+
+
+  let preview = document.getElementById('preview')
+  document.getElementById("updAvatar").onclick = function () {
+    // 执行input文件框单击事件
+    avatarFile.click();
+  }
+
+  // 给文件绑定onchange事件，来判断用户是否上传了文件
+  avatarFile.onchange = function () {
+    let file = this.files[0]; // 获取文件的二进制数据
+    if (!file) {
+      return;
+    }
+    let formData = new FormData();
+    formData.append('avatar', file);
+
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+      if (this.readyState === 4 && this.status === 200) {
+        let data = JSON.parse(this.responseText)
+        let { message, code, src } = data
+        layer.msg(message)
+        // 把服务器返回的图片路径设置img的src中，实现图片预览
+        preview.src = '/' + src;
+      }
+    }
+    xhr.open('post', '/upoloadAvatar', true)
+    xhr.send(formData)
+  }
+
+
+</script>

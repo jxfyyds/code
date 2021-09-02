@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="https://i.postimg.cc/VJZHXCS3" type="image/x-icon" />
+  <title>登录</title>
+  <link rel="stylesheet" href="css/common.css" />
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<style>
+  HTML CSS JSResult Skip Results Iframe * {
+    margin: 0;
+    padding: 0;
+    font-family: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
+    text-decoration: none;
+    /*去掉超链接下划线*/
+  }
+
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+  }
+
+  body {
+    background-image: url(https://i.postimg.cc/fLbGkw3G/background2.jpg);
+    background-repeat: no-repeat;
+    background-attachment: space;
+    background-size: cover;
+
+
+  }
+
+  #container {
+    width: 100%;
+    height: 100%;
+
+  }
+
+  .wrap {
+    position: absolute;
+    top: 50%;
+    left: 49%;
+    transform: translate(-50%, -50%);
+
+  }
+
+  .balloon {
+    animation: myjump 1.2s infinite;
+  }
+
+  @keyframes myjump {
+    0% {
+      transform: translate(0, 0);
+    }
+
+    50% {
+      transform: translate(0, -30%);
+    }
+
+    100% {
+      transform: translate(0, 0);
+    }
+  }
+
+  @keyframes jumpout {
+    0% {
+      top: 50%;
+    }
+
+    100% {
+      top: -10%;
+
+    }
+  }
+
+  .second-wrap {
+    width: 1170px;
+    height: 100%;
+
+  }
+
+  #head {
+    width: 1170px;
+    height: 68px;
+    padding: 15px;
+    text-align: center;
+
+  }
+
+  @keyframes myjump2 {
+    0% {
+      transform: translate(0, 40%);
+    }
+
+    50% {
+      transform: translate(0, -10%);
+    }
+
+    100% {
+      transform: translate(0, 40%);
+    }
+  }
+
+  #head .logo {
+    width: 58px;
+    height: 58px;
+    margin: 0 10px;
+    animation: myjump2 1.8s infinite;
+  }
+
+  #head .name {
+    font-size: 35px;
+    color: #23436e;
+    font-style: italic;
+    font-family: 'cursive';
+    font-weight: 555;
+    text-shadow: 3px 3px 1px #c2d5ebc9;
+    -webkit-text-stroke: 0.2px rgb(253, 250, 250)
+  }
+
+  #main {
+    width: 1170px;
+    height: 510px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 18px;
+
+  }
+
+
+  #main-right {
+    border-left: 1px solid white;
+    width: 41%;
+    height: 510px;
+    background-color: rgba(255, 255, 255, 0.911);
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    box-shadow: 3px 4px 4px #adbfc5c0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #login-box {
+    width: 75%;
+    height: 75%;
+  }
+
+  /*登录方式标题*/
+  .login-title {
+    /*行内元素对齐*/
+    width: 46%;
+    text-align: center;
+    color: #d3d3d3;
+    margin-bottom: 35px;
+    padding-bottom: 15px;
+    font-weight: 545;
+    cursor: pointer;
+    transition: all 0.5s;
+  }
+
+  #pswd-title {
+    margin-left: 5px;
+    float: left;
+  }
+
+  #code-title {
+    float: right;
+  }
+
+  .login-active {
+    border-bottom: 3px solid #a9c7e7af;
+    color: #555151;
+  }
+
+  .login-form {
+    width: 100%;
+    height: 80%;
+    display: none;
+  }
+
+  .form-active {
+    display: block;
+  }
+
+
+  .textbox {
+    width: 90%;
+    height: 55px;
+    background-color: #f0f0f0;
+    overflow: hidden;
+    border-radius: 55px;
+    font-size: 18px;
+    padding: 0 5px 0 15px;
+    margin: 25px 0;
+
+  }
+
+  .textbox i {
+    text-align: center;
+    line-height: 55px;
+    color: #757070;
+    font-size: 15px;
+  }
+
+  .textbox input {
+    margin-left: 15px;
+    background: none;
+    /*注意*/
+    outline: none;
+    border: none;
+    line-height: 1;
+    font-weight: 530;
+    font-size: 15px;
+    color: #333;
+  }
+
+  .textbox input::placeholder {
+    color: #868686;
+    font-weight: 500;
+  }
+
+  .textbox input:hover::placeholder {
+    color: #b8b8b8;
+  }
+
+  .send-code-btn {
+
+    width: 75px;
+    font-size: 13px;
+    padding-left: 5px;
+    border: 0px;
+    border-left: 1px solid #b8b8b8;
+    cursor: pointer;
+    color: #757070;
+  }
+
+  .send-code-btn:hover {
+    color: #555151
+  }
+
+  .sign-up-btn {
+    width: 150px;
+    height: 49px;
+    border: none;
+    outline: none;
+    border-radius: 49px;
+    cursor: pointer;
+    background-color: #79a5f1;
+    color: #fff;
+    text-transform: uppercase;
+    margin: 5px auto 20px auto;
+    transition: all 0.5s;
+
+  }
+
+  .btn:hover {
+    background-color: #5d88d1;
+  }
+
+  .hold-pswd-box {
+    float: left;
+  }
+
+  .hold-login-box {
+    float: left;
+  }
+
+  .isSignup {
+    float: right;
+  }
+
+
+
+
+  #main-left {
+    width: 41%;
+    height: 510px;
+    background-color: rgba(255, 255, 255, 0.603);
+    /*border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  */
+
+    background-repeat: no-repeat;
+    background-attachment: space;
+    background-size: cover;
+    opacity: 0.7;
+
+  }
+
+  /*轮播图所需的样式设置*/
+
+  .outer-box {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .inner-box {
+    height: 100%;
+    width: 100%;
+    display: flex;
+  }
+
+  .slide-ele {
+    width: 100%;
+    height: 100%;
+    flex-shrink: 0;
+  }
+
+  .slide-pic {
+    width: 100%;
+    height: 100%;
+  }
+
+  .dots-box {
+    position: absolute;
+    bottom: 45px;
+    /*注意*/
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .dots {
+    margin: 0 4px;
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+    border-radius: 100%;
+    background-color: #fff;
+
+  }
+
+  .dots-active {
+    width: 28px;
+    background: #79a5f1;
+    border-radius: 5px;
+  }
+</style>
+
+<body>
+  <div id="container">
+    <div class="first-page first-wrap wrap">
+      <img class="balloon" src="https://i.postimg.cc/Y44DRCYj/hotballoon.png">
+    </div>
+    <div class="second-page second-wrap wrap" style="display: none;">
+      <div id="head">
+        <img class="logo" src="https://i.postimg.cc/Y44DRCYj/hotballoon.png">
+        <span class="name">
+          FreeChat
+        </span>
+      </div>
+      <div id="main">
+        <div id="main-left">
+          <!--轮播图的html元素-->
+          <div class="outer-box">
+            <!--外层容器-->
+            <div class="inner-box">
+              <!--内层容器-->
+              <div class="slide-ele slide-active">
+                <!--轮播切换的元素-->
+                <img class="slide-pic" src="https://img0.baidu.com/it/u=2112441142,4013062056&fm=26&fmt=auto&gp=0.jpg">
+              </div>
+              <div class="slide-ele">
+                <!--轮播切换的元素-->
+                <img class="slide-pic" src="https://p9.itc.cn/q_70/images03/20200607/30a486b0f45345f8855623761e7d8c57.jpeg">
+              </div>
+              <div class="slide-ele">
+                <!--轮播切换的元素-->
+                <img class="slide-pic" src="https://img1.baidu.com/it/u=1945563768,864491353&fm=26&fmt=auto&gp=0.jpg">
+              </div>
+              <div class="slide-ele">
+                <!--轮播切换的元素-->
+                <img class="slide-pic" src="https://pic1.zhimg.com/v2-933e85b0aea68c63be4ce286759bf364_r.jpg?source=1940ef5c">
+              </div>
+              <div class="slide-ele">
+                <!--轮播切换的元素-->
+                <img class="slide-pic" src="http://up.qqmmgg.com/up/cc/0a/e0/cc0ae0b3a6bfab79427be179fba4c423.jpg">
+              </div>
+              <div class="slide-ele">
+                <!--轮播切换的元素-->
+                <img class="slide-pic" src="https://i.postimg.cc/j2wBQZ4v/slide1.jpg">
+              </div>
+            </div>
+            <div class="dots-box">
+              <!--点击切换的盒子-->
+              <span class="dots dots-active" dots-index="1"></span>
+              <span class="dots" dots-index="2"></span>
+              <span class="dots" dots-index="3"></span>
+              <span class="dots" dots-index="4"></span>
+              <span class="dots" dots-index="5"></span>
+            </div>
+          </div>
+        </div>
+        <div id="main-right">
+          <!--登录注册界面的实现-->
+          <div id="login-box">
+            <h3 id="pswd-title" class="login-title login-active" title-index="1">
+              账号密码登录
+            </h3>
+            <h3 id="code-title" class="login-title" title-index="2">
+              验证码登录
+            </h3>
+            <form action="" class="login-form form-active" id="pswd-login" form-index="1">
+
+              <!--input中各个属性-->
+              <div class="textbox">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                <!-- <input type="text" name="UserPhone" class="user" placeholder="请输入你的手机号"> -->
+                <input type="text" name="username" id="username" class="user" placeholder='请输入你的用户名' value="cq123456">
+              </div>
+              <div class="textbox">
+                <i class="fa fa-lock" aria-hidden="true"></i>
+                <!-- <input type="password" name="Userpswd" class="pswd" placeholder="请输入你的密码"> -->
+                <input type="password" name="password" id="password" class="pswd" placeholder='请输入你的密码' value="123456">
+              </div>
+              <div class="btn-box">
+                <!-- <button type="submit" class="sign-up-btn">登录</button> -->
+                <button id="Login" type="submit" class="sign-up-btn">登录</button></button>
+              </div>
+              <div class="hold-pswd-box">
+                <input type="checkbox" name="pswd-memory" id="pswd-hold">
+                <label>三天内记住密码</label>
+              </div>
+              <p class="isSignup">
+                还没有帐号？
+                <!-- <a href="" class="signup-url">
+                  注册。
+                </a> -->
+                <a href="/registo" class="signup-url">注册</a>
+              </p>
+              <div id="message">
+
+              </div>
+            </form>
+
+            <form action="" class="login-form" id="code-login" form-index="2">
+
+              <!--input中各个属性-->
+              <div class="textbox">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                <input type="text" name="UserPhone" class="user" placeholder="请输入你的手机号">
+              </div>
+              <div class="textbox">
+                <i class="fa fa-code" aria-hidden="true"></i>
+                <input type="password" name="UserCode" class="code" placeholder="六位验证码">
+                <button " class=" send-code-btn">获取验证码</button>
+              </div>
+              <div class="btn-box">
+                <button type="submit" class="sign-up-btn">登录</button>
+
+              </div>
+              <div class="hold-login-box">
+                <input type="checkbox" name="code-memory" id="login-hold">
+                <label>三天内免登录</label>
+              </div>
+              <p class="isSignup">
+                还没有帐号？
+                <a href="" class="signup-url">
+                  注册。
+                </a>
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <script type="text/javascript" src="js/slide.js"></script>
+  <script type="text/javascript" src="js/common.js"></script>
+  
+
+</body>
+
+<script src="../layui-v2.6.8/layui/layui.js"></script>
+<script>
+  let usernameEle = document.getElementById('username')
+  let passwordEle = document.getElementById('password')
+  let LoginEle = document.getElementById('Login')
+  let messageEle = document.getElementById('message')
+
+  LoginEle.onclick = function () {
+    let username = usernameEle.value;
+    let password = passwordEle.value;
+
+    //3. 基本信息基本校验
+    //1. 用户名最少6位，不能包含特殊字符
+    let usernameReg = /^[a-zA-Z0-9\u4e00-\u9fa5]{6,}$/;
+    if (!usernameReg.test(username)) {
+      messageEle.innerHTML = '<span class="error">用户名最少6位，不能包含特殊字符</span>'
+      return false;
+    }
+
+    //2. 密码不能少于8位
+    let passwordReg = /^.{6,}$/;
+    if (!passwordReg.test(password)) {
+      messageEle.innerHTML = '<span class="error">密码不能少于8位</span>'
+      return false;
+    }
+
+    messageEle.innerHTML = '';
+    LoginEle.setAttribute('disabled', 'disabled')
+    LoginEle.innerHTML = '登陆中...'
+
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+      if (this.readyState === 4 && this.status === 200) {
+        let data = JSON.parse(this.responseText)
+        LoginEle.removeAttribute('disabled')
+        LoginEle.innerText = '登录'
+        let { errcode, message } = data
+        if (errcode == '200') {
+         layer.msg('登陆成功')
+          location.href = '/';
+        } else {
+          alert('用户名或密码错误')
+        }
+      }
+    }
+    let formdata = `username=${username}&password=${password}`
+    xhr.open('post', 'ajaxlogin', true)
+    xhr.setRequestHeader("Content-type", 'application/x-www-form-urlencoded')
+    username = encodeURIComponent(username);
+    password = encodeURIComponent(password);
+    xhr.send(formdata)
+
+  }
+
+
+
+  //常量
+  const DURATION = "300ms";
+  const INTERVAL = 3000;
+  //全局变量
+  var index = 1;//现在的图片下标
+  var isAutoPlay;
+  var innerBox = document.querySelector(".inner-box");//内部盒子
+  var slideNum = document.querySelectorAll('.slide-ele').length;//所有的滑动的盒子
+
+  var moveWidth = document.querySelector('.inner-box').offsetWidth;//获取滑动盒子的宽度
+  var currentOffset = moveWidth;//现在的偏移量
+  var dotItems = document.querySelectorAll('.dots');
+
+  var animate;
+  //改dots的样式
+  function changeDotsStyle() {
+    document.querySelector('.dots.dots-active').classList.remove('dots-active');
+    if (index == slideNum) {
+      dotItems[0].classList.add('dots-active');
+    } else {
+      dotItems[index - 1].classList.add('dots-active');
+    }
+  }
+
+  function carousel(dur = DURATION) {
+    //此处添加了过渡事件才能无间隔过渡（不等待）？ 注意过渡事件的用法
+    innerBox.addEventListener('transitionend', () => {
+      if (index == slideNum + 1) {
+        index = 1;
+        currentOffset = moveWidth;
+        changeBoxLoc(0, "0ms");
+      }
+    })
+    if (index <= slideNum) {
+
+      currentOffset = moveWidth * (index - 1);
+      changeBoxLoc(-currentOffset, dur);
+      index++;
+    }
+
+
+  }
+  //改变内部盒子位置
+  function changeBoxLoc(offset, duration = "0ms") {
+    changeDotsStyle();
+    //${}嵌入变量
+    innerBox.style.transform = `translateX(${offset}px)`;
+    //延迟动画
+    innerBox.style.transitionDuration = duration;
+  }
+
+
+  //定时改变盒子
+  function autoPlay() {
+    if (isAutoPlay) { return; }
+    isAutoPlay = true;
+    animate = setInterval(carousel, INTERVAL)
+  }
+
+  function stopAutoPlay() {
+    if (!isAutoPlay) { return; }
+    isAutoPlay = false;
+    clearInterval(animate);
+  }
+
+  function dotsControl() {
+    for (dot of dotItems) {
+      dot.addEventListener("click", (e) => {
+        stopAutoPlay();
+        //获取元素属性
+        index = e.target.getAttribute('dots-index');
+        //console.log(index);
+        carousel();
+        autoPlay();
+      });
+    }
+  }
+
+
+  /*点击body，实现界面的更换*/
+  function changePageStyle() {
+    //获取body
+    var bodyTag = document.getElementsByTagName("body")[0];
+    bodyTag.onclick = function () {
+      //获取img元素
+      var balloon = document.getElementsByClassName("balloon")[0];
+      //balloon.style.animation='jumpout 1.2s ease ';
+      //获取page1的元素
+      var firstPage = document.getElementsByClassName("first-page");
+      //获取page2的元素
+      var secondPage = document.getElementsByClassName("second-page");
+      //设置firstpage可见和secondpage不可见
+      for (let i = 0; i < firstPage.length; i++) {//使用let让每个i有独立的作用域
+        firstPage[i].style.animation = 'jumpout 1.2s 1';
+        setTimeout(function () {
+          firstPage[i].style.display = 'none';
+        }, 1200);
+      }
+      for (let i = 0; i < secondPage.length; i++) {
+        setTimeout(function () {
+          secondPage[i].style.display = 'block';
+          moveWidth = document.querySelector('.slide-ele').offsetWidth + 0.7;
+        }, 1200);
+      }
+      bodyTag.onclick = null;
+    }
+
+  }
+
+
+  /*点击头部栏，实现登录方式的切换*/
+  function changeLogin() {
+    loginTitle = document.querySelectorAll('.login-title');//获取所有标题
+    loginForm = document.querySelectorAll('.login-form');//获取所有
+    for (tit of loginTitle) {
+      tit.addEventListener("click", (e) => {
+        //获取元素属性
+        titleIndex = e.target.getAttribute('title-index')
+        formIndex = document.querySelector('.form-active').getAttribute('form-index');
+        if (titleIndex != formIndex) {//判断点击的是不是active的
+          activeTitle = document.querySelector('.login-active').classList.remove('login-active');//将title classlist中的formactive移除
+          activeForm = document.querySelector('.form-active').classList.remove('form-active');//将form classlist中的formactive移除
+          loginTitle[titleIndex - 1].classList.add('login-active')
+          loginForm[titleIndex - 1].classList.add('form-active');
+        }
+      })
+    }
+  }
+
+
+  window.onload = function () {
+    changeLogin();
+    changePageStyle();
+    autoPlay();
+    dotsControl();
+
+  }
+</script>
+
+</html>

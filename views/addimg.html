@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #upoload{
+            border: 0;
+            outline: 0;
+            color: rgb(131, 7, 33);
+            background-color: rgb(151, 144, 39);
+            border-radius: 10px;
+            width: 90px;
+            height: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 style="color: rgb(21, 173, 16);">文件上传</h1>
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <p>
+            标题： <input type="text" name="title">
+        </p>
+        <p>
+            头像： <input type="file" name="photo" id="photo" style="display: none;">
+            <button id="upoload">选择图片</button>
+        </p>
+        <input type="submit" value="上传">
+    </form>
+</body>
+<script>
+     let upoload = document.getElementById('upoload')
+    let photoEle = document.getElementById('photo')
+    upoload.onclick = function () {
+        photoEle.click();
+        return false;
+    }
+</script>
+</html>

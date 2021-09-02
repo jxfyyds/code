@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>高清无码管理系统</title>
+    <link rel="stylesheet" href="../layui-v2.6.8/layui/css/layui.css">
+</head>
+
+<body>
+    <div class="layui-layout layui-layout-admin">
+               <!-- 引入公共页面 -->
+               {{include "./common/header.html" }}
+               <!-- 引入公共页面 -->
+               {{include "./common/side_menu.html" }}
+       
+
+
+        <div class="layui-body">
+            <!-- 内容主体区域 -->
+            <div style="padding: 15px;">
+                <span class="layui-breadcrumb" lay-separator=">">
+                    <a href="/">首页</a>
+                    <a href="/add">添加文章内容</a>
+                  </span>
+                <form  class="layui-form" method="post" >
+                    <div class="layui-form-item">
+                        <label > 内容： </label>
+                        <div id="demo">
+                        </div>
+                    </div> 
+
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn layui-btn-normal" id="setContent">添加</button>
+                        </div>
+                    </div>
+            </div>
+            </form>
+        </div>
+    </div>
+    </div>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script src="../layui/layui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/wangeditor@latest/dist/wangEditor.min.js"></script>
+    <script>
+        //JS 
+        layui.use(['element', 'layer', 'util'], function () {
+            var element = layui.element
+                , layer = layui.layer
+                , util = layui.util
+                , $ = layui.$;
+
+            //头部事件
+            util.event('lay-header-event', {
+                //左侧菜单事件
+                menuLeft: function (othis) {
+                    layer.msg('展开左侧菜单的操作111', { icon: 0 });
+                }
+                , menuRight: function () {
+                    layer.open({
+                        type: 1
+                        , content: '<div style="padding: 15px;">处理右侧面板的操作234</div>'
+                        , area: ['260px', '100%']
+                        , offset: 'rt' //右上角
+                        , anim: 5
+                        , shadeClose: true
+                    });
+                }
+            });
+
+        });
+        
+
+        // 初始化富文本编辑器
+        const E = window.wangEditor
+        const editor = new E('#demo')
+        editor.config.uploadImgShowBase64 = true
+        // 或者 const editor = new E( document.getElementById('div1') )
+        editor.create()
+
+        let reg = /id=(\d+)\&?/;
+        let url = location.href;
+        let [, id] = [...url.match(reg)]
+       
+        $("#setContent").click(function(event){
+            event.preventDefault(); // 阻止默认行为
+            let content = editor.txt.html();
+            $.post('/updateArtilceContent',{content,id},res=>{
+                let {errcode,message} = res;
+                layer.msg(message)
+                if(errcode === 200){
+                    location.href = "/classify-list";
+                }
+            },'json')
+        })
+    </script>
+</body>
+</html>

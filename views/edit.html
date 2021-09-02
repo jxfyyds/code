@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #btn {
+            width: 100px;
+            height: 20px;
+            border: 0;
+            outline: 0;
+            border-radius: 10px;
+            background-color: rgb(45, 175, 41);
+            color: rgb(65, 64, 124);
+            cursor: pointer;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+
+<body>
+    <h1>编辑文章</h1>
+
+    <form action="/update" method="post" enctype="multipart/form-data">
+        <input type="hidden" id="id" name="id" value="">
+        <input type="hidden" id="oldIimg" name="oldIimg" value="">
+        <p>
+            标题： <input type="text" id="title" name="title" autocomplete="off">
+        </p>
+        <p>
+      
+            封面<input type="file" name="img" autocomplete="off" id="Capa"       style="display: none;">
+            <button id="btn">选择图片</button>
+        </p>
+        <p>
+
+            封面预览：<img src="" alt="" id="img" width="100px">
+        </p>
+        <p>
+            <img src="" alt="">
+        </p>
+        <p>
+            作者： <input type="text" id="author" name="author" autocomplete="off">
+        </p>
+        <p>
+            审核：
+            <input type="radio" name="status" value='0'> 待审核
+            <input type="radio" name="status" value='1'> 审核通过
+            <input type="radio" name="status" value='2'> 审核失败
+        </p>
+        <p>
+            所属分类：
+            <select name="cat_id" id="cat_id">
+                <option value="0">请选择</option>
+                {{each cats item index}}
+                <option value="{{item.id}}">{{item.name}}</option>
+                {{/each}}
+            </select>
+        </p>
+        <p>
+            内容：
+            <textarea name="content" id="content" cols="30" rows="10"></textarea>
+        </p>
+        <p>
+            <button>确定更新</button>
+        </p>
+    </form>
+</body>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+<script>
+    let btnEle = document.getElementById('btn')
+    let imgEle = document.getElementById('img');
+    let CapaEle  = document.getElementById("Capa");
+    window.onload = function () {
+        let id = "{{ article.id}}"
+        let status = "{{article.state}}"; // 当前的状态
+        let cat_id = "{{ article.cat_id}}"
+        //把伪数组转成真数组，找出含有指定的value的DOM
+        let input = [...$("input[name=status]")].find(item => item.value == status)
+        input.checked = true;
+
+        $('#cat_id').val(cat_id)
+        $('#id').val(id);
+
+        $('#title').val("{{article.title}}");
+        $('#author').val("{{article.author}}");
+        $('#content').val("{{article.content}}");
+        $('#oldIimg').val("{{article.img}}");
+        //回显图片
+
+        imgEle.src = ("/{{article.img}}")
+    }
+
+    
+    btnEle.onclick = function (event) {
+        CapaEle.click();
+        event.preventDefault();
+    }
+
+    CapaEle.onchange = function () {
+        let file = this.files[0]
+        let fileReader = new FileReader()
+        fileReader.readAsDataURL(file)
+        fileReader.onload = function () {
+            imgEle.src = this.result;
+        }
+    }
+
+
+</script>
+
+
+</html>

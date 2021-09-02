@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_2730551_8ulmf77v4r8.css">
+    <style>
+        .cgray {
+            color: #ccc;
+        }
+
+        .cgreen {
+            color: green;
+        }
+
+        .cred {
+            color: red;
+        }
+
+        #addBtn {
+            border: 0;
+            outline: 0;
+            color: rgb(204, 31, 31);
+            background-color: rgb(214, 193, 203);
+            border-radius: 10px;
+            width: 90px;
+            height: 20px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        #recyclelist {
+            border: 0;
+            outline: 0;
+            color: rgb(71, 50, 119);
+            background-color: rgb(92, 175, 141);
+            border-radius: 10px;
+            width: 90px;
+            height: 20px;
+            font-size: 14px;
+            display: inline-block;
+        }
+
+        #addImg {
+            border: 0;
+            outline: 0;
+            color: rgb(134, 65, 117);
+            background-color: rgb(87, 155, 99);
+            border-radius: 10px;
+            width: 90px;
+            height: 20px;
+            font-size: 14px;
+            display: inline-block;
+        }
+
+        #logout {
+            border: 0;
+            outline: 0;
+            color: rgb(131, 7, 33);
+            background-color: rgb(151, 144, 39);
+            border-radius: 10px;
+            width: 90px;
+            height: 20px;
+            font-size: 14px;
+            display: inline-block;
+        }
+
+        #edit {
+            text-align: center;
+            border: 0;
+            outline: 0;
+            color: rgb(131, 7, 33);
+            background-color: rgb(151, 144, 39);
+            border-radius: 10px;
+            width: 50px;
+            height: 20px;
+            font-size: 14px;
+            display: inline-block;
+        }
+
+        #delt {
+            text-align: center;
+            border: 0;
+            outline: 0;
+            color: rgb(156, 11, 108);
+            background-color: rgb(15, 109, 231);
+            border-radius: 10px;
+            width: 80px;
+            height: 20px;
+            font-size: 14px;
+            display: inline-block;
+        }
+
+        #recycle {
+            text-align: center;
+            border: 0;
+            outline: 0;
+            color: rgb(163, 216, 18);
+            background-color: rgb(194, 15, 98);
+            border-radius: 10px;
+            width: 80px;
+            height: 20px;
+            font-size: 14px;
+            display: inline-block;
+        }
+
+        #iconfont {
+            font-size: 30px;
+            color: rgb(163, 21, 21);
+        }
+
+        #iconfont1 {
+            font-size: 30px;
+            color: rgb(58, 62, 129);
+        }
+
+        #iconfont2 {
+            font-size: 30px;
+            color: rgb(42, 21, 163);
+        }
+
+        #iconfont3 {
+            font-size: 30px;
+            color: rgb(13, 197, 38);
+        }
+
+        #iconfont4 {
+            font-size: 30px;
+            color: rgb(15, 157, 223);
+        }
+
+        #iconfont5 {
+            font-size: 30px;
+            color: rgb(145, 223, 20);
+        }
+
+        #iconfont6 {
+            font-size: 30px;
+            color: rgb(238, 197, 13);
+        }
+
+        #iconfont7 {
+            font-size: 30px;
+            color: rgb(228, 15, 174);
+        }
+
+        #iconfont8 {
+            font-size: 30px;
+            color: rgb(235, 139, 13);
+        }
+
+        i {
+            /*
+            文字跟图片对齐
+            */
+            vertical-align: middle;
+            padding: 5px;
+        }
+
+        ul {
+            width: 80px;
+            height: 500px;
+            list-style-type: none;
+            border: 1px solid rgb(158, 14, 14);
+        }
+    </style>
+</head>
+
+<body>
+    <h1 style="text-align: center;color: rgb(175, 20, 20);">文章列表</h1>
+    <h2 style="text-align: center; color: rgb(73, 245, 6);">欢迎你:{{userInfo.username}},上一次登录时间：{{userInfo.last_login_date
+        | dealDate 'YYYY-MM-DD' }}</h2>
+    <div style="text-align: center;padding: 10px;">
+        <button id="addBtn"> 添加文章</button>
+        <a href="/recyclelist" id="recyclelist">回收站列表</a>
+        <a href="/addImg" id="addImg">单文件上传</a>
+        <a href="/logout" id="logout" onclick="return confirm('确定离开吗?')">退出账户</a>
+
+    </div>
+    <div>
+        <!-- {{ myposts }} -->
+        <table border="1px" rules="all" style="margin:  auto ; text-align: center; ">
+            <tr>
+
+                <td><i class="iconfont icon-xuhao" id="iconfont"></i>序号</td>
+
+                <td><i class="iconfont icon-biaoti1 " id="iconfont"></i>标题</td>
+                <td><i class="iconfont icon-category01 " id="iconfont1"></i>分类</td>
+                <td><i class="iconfont icon-category01 " id="iconfont2"></i>图片</td>
+                <td><i class="iconfont icon-zuozhe " id="iconfont3"></i>作者</td>
+                <td><i class="iconfont icon-neirong " id="iconfont4"></i>内容</td>
+                <td><i class="iconfont icon-zhuangtai " id="iconfont5"></i>状态</td>
+                <td><i class="iconfont icon-shijian " id="iconfont6"></i>添加时间</td>
+                <td><i class="iconfont icon-xiugaishijian " id="iconfont7"></i>修改时间</td>
+                <td><i class="iconfont icon-caozuo " id="iconfont8"></i>操作</td>
+
+            </tr>
+            {{each myposts item index}}
+            <tr>
+                <td>{{index + 1}}</td>
+                <td>{{item.title}}</td>
+                <td>{{item.name}}</td>
+                <td><img src="/{{item.img}}" width="100px" alt=""></td>
+                <td>{{item.author}}</td>
+                <td><a href="#">查看详情</a></td>
+                <td>
+                    {{@ item.status_text}}
+                </td>
+                <td>{{item.addtime | dateFormat 'YYYY-MM-DD'}}</td>
+                <td>{{item.duplicate | dateFormat 'YYYY-MM-DD'}}</td>
+                <td>
+                    <a href="/edit?id={{item.id}}" id="edit">编辑</a>
+                    <a href="javascript:;" onclick="confirmDelete('{{item.id}}','{{item.img}}');" id="delt">永久删除</a>
+
+                    <a href="/recycle?id={{item.id}}" onclick="return confirm('确实加入回收站');" id="recycle">加入回收站</a>
+
+                    <a href="javascript:void(0)" onclick="ajaxDelete(this,'{{item.id}}','{{item.img}}')">ajax永久删除</a>
+                </td>
+            </tr>
+            {{/each}}
+        </table>
+    </div>
+    <ul>
+        <li>电影分类</li>
+        <li>纪录片</li>
+        <li>动作片</li>
+        <li>爱情片</li>
+        <li>喜剧片</li>
+        <li>伦理片</li>
+        <li>古装片</li>
+
+    </ul>
+</body>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/layer/3.5.1/layer.js"></script>
+<script>
+
+$("table tr:odd").css('background-color','#ccc')
+
+    document.getElementById('addBtn').onclick = function () {
+        location.href = '/add'
+    }
+    //普通删除
+    function confirmDelete(id, img) {
+
+        let result = layer.confirm('确认永久删除吗 数据不可以还原', {
+            btn: ['是的', '取消'],
+            shadeClose: true,
+            shade: [0.3, '#000']
+        }, () => {
+            location.href = "/delete?id=" + id + "&img" + img
+        },
+            () => {
+                layer.msg('取消了', { icon: 1 })
+            });
+
+
+    }
+
+    //ajax异步删除
+    function ajaxDelete(ele, id, img) {
+        let result = layer.confirm('确认删除吗?', {
+            btn: ['是的', '取消'],
+            shadeClose: true,
+            shade: [0.3, '#000']
+        }, () => {
+            let xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    let data = JSON.parse(this.responseText)
+                    let { errcode, massage } = data;
+                    if (errcode === 200) {
+                        //删除成功
+                        $(ele).parents('tr').remove()
+                        setTimeout(function () {
+                            layer.msg("删除成功", { icon: 1 })
+                        }, 500)
+                        layer.closeAll();
+                    } else if (errcode === 304 ) {
+                        layer.msg(message)
+                        location.href('/login')
+                    }
+                } else {
+                    layer.msg("删除失败")
+                }
+            }
+            xhr.open('post', '/ajaxdelete', true)
+            xhr.setRequestHeader("Content-type", 'application/x-www-form-urlencoded')
+            xhr.send("id=" + id + "&img=" + img+"$flag=ajax")
+        },
+            () => {
+                layer.msg('取消了', { icon: 1 })
+            });
+
+    }
+</script>
+
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>{{myposts.title}}</h2>
+    <p>
+        <div>
+            <img src="/{{myposts.img}}" alt="">
+        </div>
+        所属分类： {{myposts.cat_id}}, 发布作者： {{myposts.author}} ,发布时间：{{myposts.addtime | dateFormat 'YYYY-MM-DD'}} 
+    </p>
+    <p>
+        {{@ myposts.content}}
+    </p>
+</body>
+</html>

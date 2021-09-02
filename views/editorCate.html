@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>高清无码管理系统</title>
+    <link rel="stylesheet" href="../layui-v2.6.8/layui/css/layui.css">
+</head>
+
+<body>
+    <div class="layui-layout layui-layout-admin">
+        <!-- 引入公共页面 -->
+        {{include "./common/header.html" }}
+        <!-- 引入公共页面 -->
+        {{include "./common/side_menu.html" }}
+
+
+
+        <div class="layui-body">
+            <!-- 内容主体区域 -->
+            <div style="padding: 15px;">
+                <span class="layui-breadcrumb" lay-separator=">">
+                    <a href="/">首页</a>
+                    <a href="/addCate">分类编辑</a>
+                </span>
+                <form style="padding: 15px;" class="layui-form" id="theform" lay-filter="formCate">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">分类名称： </label>
+                        <div class="layui-input-inline">
+                            <input type="text" lay-verify="required" class="layui-input" name="name" autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div class="">
+                        <label class="layui-form-label"> 显示首页： </label>
+                        <input type="radio" name="isshow" value='1' title="显示">
+                        <input type="radio" name="isshow" value='0' title="不显示">
+                    </div>
+
+                    <div id="demo">
+
+                    </div>
+
+
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">添加</button>
+                            <!-- <input type="button" id="add" class="layui-btn layui-btn-normal" value="添加"> -->
+                        </div>
+                    </div>
+            </div>
+            </form>
+        </div>
+    </div>
+    </div>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script src="../layui-v2.6.8/layui/layui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/wangeditor@latest/dist/wangEditor.min.js"></script>
+    <script>
+
+        const E = window.wangEditor
+        const editor = new E('#demo')
+        // 或者 const editor = new E( document.getElementById('div1') )
+        editor.create()
+        let reg = /cat_id=(\d+)\&?/;
+        let url = location.href;
+        let [, cat_id] = [...url.match(reg)]
+        //JS 
+        var form;
+        layui.use(['element', 'layer', 'util', 'form'], function () {
+            var element = layui.element
+                , layer = layui.layer
+                , util = layui.util
+                , $ = layui.$;
+
+            //头部事件
+            util.event('lay-header-event', {
+                //左侧菜单事件
+                menuLeft: function (othis) {
+                    layer.msg('展开左侧菜单的操作111', { icon: 0 });
+                }
+                , menuRight: function () {
+                    layer.open({
+                        type: 1
+                        , content: '<div style="padding: 15px;">处理右侧面板的操作234</div>'
+                        , area: ['260px', '100%']
+                        , offset: 'rt' //右上角
+                        , anim: 5
+                        , shadeClose: true
+                    });
+                }
+            });
+
+            // 表单提交事件
+            form = layui.form;
+
+            //提交表单
+            form.on('submit(formDemo)', function (data) {
+
+                let mydata = {
+                    cat_id,
+                    content: editor.txt.html(),
+                    ...data.field
+                }
+                $.post('/updateCate', mydata, (res) => {
+                    let { message, errcode } = res;
+                    layer.msg(message)
+                    if (errcode === 200) {
+                        location.href = "/classify-list"
+                    }
+                }, 'json')
+                return false;
+            });
+
+
+        });
+
+        // 2. 通过cat_id发送ajax请求，获取当前分类的数据，在回显到表单中
+        $.get('/getCateDetail', { cat_id }, function (res) {
+            let { name, isshow, content } = res;
+
+            // 赋值
+            form.val("formCate", {
+                "name": name,
+                "isshow": isshow == 1 ? true : false
+            })
+            // 回显富文本
+            editor.txt.html(content)
+        }, 'json')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

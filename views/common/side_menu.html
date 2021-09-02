@@ -1,0 +1,72 @@
+<script src="/layui-v2.6.8/layui/css/layui.css"></script>
+
+<div class="layui-side layui-bg-black">
+  <div class="layui-side-scroll">
+    <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+    <ul class="layui-nav layui-nav-tree" lay-filter="test">
+      <li class="layui-nav-item"><a href="/">首页</a></li>
+      <li class="layui-nav-item layui-nav-itemed">
+        <a class="" href="javascript:;">分类管理</a>
+        <dl class="layui-nav-child">
+          <dd><a href="/classify-list">分类列表</a></dd>
+          <dd><a href="/addCate">添加分类</a></dd>
+        </dl>
+      </li>
+
+
+
+      <li class="layui-nav-item layui-nav-itemed">
+        <a class="" href="javascript:;">文章管理</a>
+        <dl class="layui-nav-child">
+          <dd><a href="/article">文章列表</a></dd>
+          <dd><a href="/add">添加文章</a></dd>
+        </dl>
+      </li>
+
+
+      <li class="layui-nav-item layui-nav-itemed">
+        <a class="" href="javascript:;">回收站</a>
+        <dl class="layui-nav-child">
+          <dd><a href="/recyclelist">文章回收站</a></dd>
+        </dl>
+      </li>
+      <!-- <li class="layui-nav-item">
+              <a href="javascript:;">menu group 2</a>
+              <dl class="layui-nav-child">
+                <dd><a href="javascript:;">list 1</a></dd>
+                <dd><a href="javascript:;">list 2</a></dd>
+                <dd><a href="">超链接</a></dd>
+              </dl>
+            </li> -->
+      <!-- <li class="layui-nav-item"><a href="javascript:;">click menu item</a></li>
+            <li class="layui-nav-item"><a href="">the links</a></li> -->
+    </ul>
+  </div>
+</div>
+<script src="/layui-v2.6.8/layui/layui.js">
+            layui.use(['element', 'layer', 'util'], function () {
+            var element = layui.element
+                , layer = layui.layer
+                , util = layui.util
+                , $ = layui.$;
+
+            //头部事件
+            util.event('lay-header-event', {
+                //左侧菜单事件
+                menuLeft: function (othis) {
+                    layer.msg('展开左侧菜单的操作111', { icon: 0 });
+                }
+                , menuRight: function () {
+                    layer.open({
+                        type: 1
+                        , content: '<div style="padding: 15px;">处理右侧面板的操作234</div>'
+                        , area: ['260px', '100%']
+                        , offset: 'rt' //右上角
+                        , anim: 5
+                        , shadeClose: true
+                    });
+                }
+            });
+
+        });
+</script>
